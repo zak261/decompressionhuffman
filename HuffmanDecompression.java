@@ -1,10 +1,10 @@
-import java.io.*;//importe les classes n�cessaires pour effectuer les entr�es/sorties sur des fichiers.
+import java.io.*;//importe les classes nécessaires pour effectuer les entrées/sorties sur des fichiers.
 
 public class HuffmanDecompression {
 
     // Structure de l'arbre de Huffman
     private static class Node { // stocker la structure de l'arbre de Huffman. 
-    	//Un noeud contient une valeur (qui peut �tre un caract�re ou une fr�quence), 
+    	//Un noeud contient une valeur (qui peut être un caractère ou une fréquence), 
     	//et des liens vers les noeuds enfants gauche et droit.
         public char value;
         public Node left, right;
@@ -12,32 +12,32 @@ public class HuffmanDecompression {
     }
 
     public static void main(String[] args) throws IOException {
-        // �tape 1+2 : lecture de l'alphabet et des fr�quences et la construire
+        // Étape 1+2 : lecture de l'alphabet et des fréquences et la construire
         BufferedReader reader = new BufferedReader(new FileReader("exemple_freq.txt"));
         int alphabetSize = Integer.parseInt(reader.readLine());
         Node root = null;
-        for (int i = 0; i < alphabetSize; i++) {// La premi�re ligne lit le nombre de symboles 
+        for (int i = 0; i < alphabetSize; i++) {// La première ligne lit le nombre de symboles 
         	//dans l'alphabet, 
         	//puis pour chaque symbole, les lignes suivantes lisent le symbole 
-        	//et sa fr�quence correspondante, 
+        	//et sa fréquence correspondante, 
             char symbol = reader.readLine().charAt(0);
             int frequency = Integer.parseInt(reader.readLine());
-            root = insert(root, symbol, frequency); //puis ins�rent le symbole dans l'arbre 
-            //de Huffman � l'aide de la fonction "insert".
+            root = insert(root, symbol, frequency); //puis insèrent le symbole dans l'arbre 
+            //de Huffman à l'aide de la fonction "insert".
         }
         reader.close();
 
 
-        // �tape 3 : d�codage du texte comprim�
+        // Étape 3 : décodage du texte comprimé
         InputStream input = new FileInputStream("exemple_freq_comp.bin");
         OutputStream output = new FileOutputStream("exemple_freq_decompressed.txt"); 
-        //les deux premi�res lignes ouvrent des flux d'entr�e et de sortie 
-        //pour lire le fichier compress� et �crire le fichier d�compress�. 
+        //les deux premières lignes ouvrent des flux d'entrée et de sortie 
+        //pour lire le fichier compressé et écrire le fichier décompressé. 
         int bit;
         Node node = root;
-        while ((bit = input.read()) != -1) { //lit chaque bit du fichier compress�. 
-        	//Si le bit est 0, le noeud courant est mis � jour avec le fils gauche, 
-        	//sinon le noeud courant est mis � jour avec le fils droit. 
+        while ((bit = input.read()) != -1) { //lit chaque bit du fichier compressé. 
+        	//Si le bit est 0, le noeud courant est mis à jour avec le fils gauche, 
+        	//sinon le noeud courant est mis à jour avec le fils droit. 
         	//Si le noeud courant n'a pas de fils gauche ni de fils droit
             if (bit == '0') {
                 node = node.left;
@@ -52,21 +52,21 @@ public class HuffmanDecompression {
         input.close();
         output.close();
 
-        // �tape 4 : d�termination du taux de compression
+        // Étape 4 : détermination du taux de compression
         File compressedFile = new File("exemple_freq_comp.bin");
         File originalFile = new File("exemple_freq.txt");
         double compressionRatio = 1.0 - (double) compressedFile.length() / originalFile.length();
         System.out.println("Taux de compression : " + compressionRatio);
 
-        // �tape 5 : d�termination du nombre moyen de bits de stockage d'un caract�re du 
-        //texte compress�
+        // Étape 5 : détermination du nombre moyen de bits de stockage d'un caractère du 
+        //texte compressé
         double bitsPerCharacter = (double) compressedFile.length() * 8 / originalFile.length();
-        System.out.println("Nombre moyen de bits par caract�re : " + bitsPerCharacter);
+        System.out.println("Nombre moyen de bits par caractère : " + bitsPerCharacter);
     }
 
-    // Fonction pour ins�rer un n�ud dans l'arbre de Huffman
+    // Fonction pour insérer un nœud dans l'arbre de Huffman
     private static Node insert(Node root, char value, int frequency) {
-    	//ins�rer de nouveaux n�uds dans l'arbre de Huffman en fonction de leur fr�quence. 
+    	//insérer de nouveaux nœuds dans l'arbre de Huffman en fonction de leur fréquence. 
         if (root == null) {
             return new Node(value);
         } else if (frequency < root.value) {
