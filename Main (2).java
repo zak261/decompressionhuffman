@@ -8,6 +8,8 @@ public class Main {
 
         File compressedFile = new File("exemple_comp.bin");
         File originalFile = new File("exemple_freq.txt");
+          //les deux premières lignes ouvrent des flux d'entrée et de sortie 
+        //pour lire le fichier compressé et écrire le fichier décompressé. 
         double compressionRatio = 1.0 - (double) compressedFile.length() / originalFile.length();
         System.out.println("Taux de compression : " + compressionRatio);
 
