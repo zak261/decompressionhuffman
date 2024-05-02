@@ -44,13 +44,20 @@ public class HuffmanDecompressor {
             return root;
         }
     }
+  
+    // Étape 3 : décodage du texte comprimé
 
     public void decompress(String compressedFile, String outputFile) throws IOException {
         InputStream input = new FileInputStream(compressedFile);
         OutputStream output = new FileOutputStream(outputFile);
+         //les deux premières lignes ouvrent des flux d'entrée et de sortie 
+        //pour lire le fichier compressé et écrire le fichier décompressé.
         int bit;
         Node node = root;
-        while ((bit = input.read()) != -1) {
+        while ((bit = input.read()) != -1) {//lit chaque bit du fichier compressé. 
+        	//Si le bit est 0, le noeud courant est mis à jour avec le fils gauche, 
+        	//sinon le noeud courant est mis à jour avec le fils droit. 
+        	//Si le noeud courant n'a pas de fils gauche ni de fils droit
             if (bit == '0') {
                 node = node.left;
             } else if (bit == '1') {
